@@ -1,14 +1,14 @@
-#pragma once
+п»ї#pragma once
 
-//Шаблон класса Элемент списка
+//РЁР°Р±Р»РѕРЅ РєР»Р°СЃСЃР° Р­Р»РµРјРµРЅС‚ СЃРїРёСЃРєР°
 template<class dtype>
 class node
 {
 public:
-	dtype data;		//Данные в элементе
-	node* next;		//Указатель на следующий эл-т
-	bool operator< (const node& n) { return (data<n.data); }	//Операторы 
-	bool operator> (const node& n) { return (data>n.data); }	//сравнения
-	node(dtype in) { data = in; next = NULL; }					//Конструктор с параметром
-	node() { next = NULL; }										//Конструктор по умолчанию
+	dtype data;		//Р”Р°РЅРЅС‹Рµ РІ СЌР»РµРјРµРЅС‚Рµ
+	node* next;		//РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»-С‚
+	bool operator< (const node& n) { return (data<n.data); }	//РћРїРµСЂР°С‚РѕСЂС‹ 
+	bool operator> (const node& n) { return (data>n.data); }	//СЃСЂР°РІРЅРµРЅРёСЏ
+	node(dtype in) { data = in; next = NULL; }					//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂРѕРј
+	node() { next = NULL; }										//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 };

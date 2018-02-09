@@ -18,9 +18,12 @@
     <ClInclude Include="..\..\include\monom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\polynom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\monom.cpp">
+    <ClCompile Include="..\..\src\polynom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

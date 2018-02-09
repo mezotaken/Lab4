@@ -6,32 +6,23 @@ template<class dtype>
 class list
 {
 private:
-	node<dtype>* head;													//Указатель на голову
-	node<dtype>* curr;													//Указатель на текущий элемент
-	void Clean();														//Служебный метод, очистка списка
+	node<dtype>* head;									//Указатель на голову
+	void Clean();										//Служебный метод, очистка списка
 public:
-	list();																//Конструктор по умолчанию
-	~list();															//Деструктор
-	list(const list<dtype>& src);										//Конструктор копирования
-	list<dtype>& operator=(const list<dtype> &src);						//Перегрузка оператора присваивания
-	void Reset() { curr = head; }										//Установка curr на голову
-	bool IsEnded() const { return curr->next == head; }					//Проверка на нахождение *curr в конце списка
-	void GetNext() { curr = curr->next; }								//Смещение curr на следующий элемент
-	void InsertInOrder(dtype elem);										//Вставка в упорядоченный список
+	list();												//Конструктор по умолчанию
+	~list();											//Деструктор
+	list(const list<dtype>& src);						//Конструктор копирования
+	list<dtype>& operator=(const list<dtype> &src);		//Перегрузка оператора присваивания
+	void InsertInOrder(dtype elem);						//Вставка в упорядоченный список
+	node<dtype>* GetHead() const { return head; }
 };
 //------------------------------------------------------------------------//
-
-
-
 
 //-----------------------Очистка списка-----------------------------------//
 template <class dtype>
 void list<dtype>::Clean()
 {
-	Reset();
-	if (!IsEnded())
-	{
-		GetNext();
+	node<dtype>* curr = head->next;
 		while (curr != head)
 		{
 			node<dtype>* temp = curr->next;
@@ -39,7 +30,6 @@ void list<dtype>::Clean()
 			curr = temp;
 		}
 		head->next = head;
-	}
 }
 
 //-----------------------Конструктор по умолчанию-------------------------//
@@ -48,8 +38,8 @@ list<dtype>::list()
 {
 	head = new node<dtype>;
 	head->next = head;
-	Reset();
 }
+
 
 //--------------------------------Деструктор------------------------------//
 template <class dtype>
@@ -64,14 +54,14 @@ template <class dtype>
 list<dtype>::list(const list<dtype>& src) : list()
 {
 	node<dtype>* psrc = src.head;
-	node<dtype>* temp = head;
+	node<dtype>* pcur = head;
 	while (psrc->next != src.head)
 	{
 		psrc = psrc->next;
-		temp->next = new node<dtype>(psrc->data);
-		temp = temp->next;
-	}
-	temp->next = head;
+		pcur->next = new node<dtype>(psrc->data);
+		pcur = pcur->next;
+	} 
+	pcur->next = head;
 }
 
 //----------------------Оператор присваивания-----------------------------//
@@ -80,14 +70,14 @@ list<dtype>& list<dtype>::operator=(const list<dtype>& src)
 {
 	Clean();
 	node<dtype>* psrc = src.head;
-	node<dtype>* temp = head;
+	node<dtype>* pcur = head;
 	while (psrc->next != src.head)
 	{
 		psrc = psrc->next;
-		temp->next = new node<dtype>(psrc->data);
-		temp = temp->next;
+		pcur->next = new node<dtype>(psrc->data);
+		pcur = pcur->next;
 	}
-	temp->next = head;
+	pcur->next = head;
 	return *this;
 }
 
@@ -96,10 +86,10 @@ template <class dtype>
 void list<dtype>::InsertInOrder(dtype elem)
 {
 	node<dtype>* temp = new node<dtype>(elem);
-	Reset();
+	node<dtype>* curr = head;
 
-	while ((*(curr->next) < *temp) && !IsEnded())
-			GetNext();
+	while ((*(curr->next) < *temp) && curr->next != head)
+		curr = curr->next;
 	node<dtype>* pn = curr->next;
 	curr->next = temp;
 	curr->next->next = pn;

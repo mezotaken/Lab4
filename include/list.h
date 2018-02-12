@@ -14,7 +14,7 @@ public:
 	list(const list<dtype>& src);						//Конструктор копирования
 	list<dtype>& operator=(const list<dtype> &src);		//Перегрузка оператора присваивания
 	void InsertInOrder(dtype elem);						//Вставка в упорядоченный список
-	node<dtype>* GetHead() const { return head; }
+	node<dtype>* GetHead() const { return head; }		//Получить указатель на голову
 };
 //------------------------------------------------------------------------//
 

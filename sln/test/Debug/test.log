@@ -1,3 +1,4 @@
-﻿  test_ringlist.cpp
+﻿  test_polynom.cpp
+d:\misc\учеба\labsprogs\lab4\test\test_polynom.cpp(15): warning C4018: '<': signed/unsigned mismatch
   test.vcxproj -> D:\Misc\Учеба\LabsProgs\Lab4\sln\Debug\test.exe
   test.vcxproj -> D:\Misc\Учеба\LabsProgs\Lab4\sln\Debug\test.pdb (Partial PDB)

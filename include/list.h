@@ -12,9 +12,11 @@ public:
 	list();												//Конструктор по умолчанию
 	~list();											//Деструктор
 	list(const list<dtype>& src);						//Конструктор копирования
-	list<dtype>& operator=(const list<dtype> &src);		//Перегрузка оператора присваивания
+	list<dtype>& operator=(const list<dtype>& src);		//Перегрузка оператора присваивания
 	void InsertInOrder(dtype elem);						//Вставка в упорядоченный список
 	node<dtype>* GetHead() const { return head; }		//Получить указатель на голову
+	bool operator==(const list<dtype>& rlst) const;								//Операторы
+	bool operator!=(const list<dtype>& rlst) const { return !(*this == rlst); }	//Сравнения
 };
 //------------------------------------------------------------------------//
 
@@ -93,4 +95,24 @@ void list<dtype>::InsertInOrder(dtype elem)
 	node<dtype>* pn = curr->next;
 	curr->next = temp;
 	curr->next->next = pn;
+}
+
+//----------------Оператор сравнения--------------------------------------//
+template<class dtype>
+bool list<dtype>::operator==(const list<dtype>& rlst) const
+{
+	bool res = true;
+	if (this != &rlst)
+	{
+		node<dtype>* pr = rlst.head->next;
+		node<dtype>* pl = head->next;
+		while (pr->data == pl->data && pl != head && pr != rlst.head)
+		{
+			pr = pr->next;
+			pl = pl->next;
+		}
+		if (pl != head || pr != rlst.head)
+			res = false;
+	}
+	return res;
 }

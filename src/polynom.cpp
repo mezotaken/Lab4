@@ -101,12 +101,16 @@ polynom polynom::operator+(const polynom& pmr) const
 //Умножение на константу
 polynom polynom::operator*(const double mp) const
 {
-	polynom res(*this);
-	node<monom>* curr = res.pmlist.GetHead()->next;
-	while (curr != res.pmlist.GetHead())
+	polynom res;
+	if (abs(mp) > EPS)
 	{
-		curr->data.cf *= mp;
-		curr = curr->next;
+		res = *this;
+		node<monom>* curr = res.pmlist.GetHead()->next;
+		while (curr != res.pmlist.GetHead())
+		{
+			curr->data.cf *= mp;
+			curr = curr->next;
+		}
 	}
 	return res;
 }

@@ -28,6 +28,7 @@
 *.app
 
 #MVS files
+*.db
 *.pdb
 *.idb
 *.suo

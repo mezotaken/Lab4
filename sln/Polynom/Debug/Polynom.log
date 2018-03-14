@@ -1,4 +1,0 @@
-﻿  polynom.cpp
-d:\misc\учеба\labsprogs\lab4\src\polynom.cpp(12): warning C4018: '<': signed/unsigned mismatch
-d:\misc\учеба\labsprogs\lab4\src\polynom.cpp(17): warning C4018: '<': signed/unsigned mismatch
-  Polynom.vcxproj -> D:\Misc\Учеба\LabsProgs\Lab4\sln\Debug\Polynom.lib

@@ -26,3 +26,14 @@
 *.exe
 *.out
 *.app
+
+#MVS files
+*.pdb
+*.idb
+*.suo
+*.ilk
+*.tlog
+*.log
+*.lastbuidstate
+*.filters
+*.user

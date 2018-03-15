@@ -25,7 +25,7 @@ public:
 
 TEST_F(ExList, created_empty_list_is_correct)
 {
-	EXPECT_EQ(emp.GetHead(), emp.GetHead()->next);
+	EXPECT_EQ(true, emp.IsEnded());
 }
 
 TEST_F(ExList, can_copy_empty_list)
@@ -36,8 +36,8 @@ TEST_F(ExList, can_copy_empty_list)
 TEST_F(ExList, copied_empty_list_is_correct)
 {
 	list<int> m(emp);
-	EXPECT_EQ(m.GetHead()->next, m.GetHead());
-	EXPECT_NE(m.GetHead(),emp.GetHead());
+	EXPECT_EQ(true, m.IsEnded());
+	EXPECT_NE(m.GetCurr(),emp.GetCurr());
 }
 
 TEST_F(ExList,can_assign_empty_list)
@@ -48,8 +48,8 @@ TEST_F(ExList,can_assign_empty_list)
 TEST_F(ExList, assigned_empty_list_is_correct)
 {
 	list<int> m = emp;
-	EXPECT_EQ(m.GetHead()->next, m.GetHead());
-	EXPECT_NE(m.GetHead(), emp.GetHead());
+	EXPECT_EQ(true, m.IsEnded());
+	EXPECT_NE(m.GetCurr(), emp.GetCurr());
 }
 
 TEST_F(ExList, can_insert_in_empty_list)
@@ -60,8 +60,9 @@ TEST_F(ExList, can_insert_in_empty_list)
 TEST_F(ExList, insert_in_empty_list_is_correct)
 {
 	emp.InsertInOrder(5);
-	EXPECT_EQ(5, emp.GetHead()->next->data);
-	EXPECT_EQ(emp.GetHead()->next->next, emp.GetHead());
+	emp.Reset();
+	EXPECT_EQ(5, emp.GetCurr()->data);
+	EXPECT_EQ(emp.GetCurr()->next->next, emp.GetCurr());
 }
 
 TEST_F(ExList, can_compare_list_with_itself)
@@ -85,10 +86,12 @@ TEST_F(ExList, can_copy_filled_list)
 TEST_F(ExList, copied_filled_list_is_correct)
 {
 	list<int> m(fil);
-	EXPECT_EQ(1, m.GetHead()->next->data);
-	EXPECT_EQ(10, m.GetHead()->next->next->data);
-	EXPECT_EQ(m.GetHead(), m.GetHead()->next->next->next);
-	EXPECT_NE(m.GetHead(), fil.GetHead());
+	m.Reset();
+	EXPECT_EQ(1, m.GetCurr()->data);
+	EXPECT_EQ(10, m.GetCurr()->next->data);
+	EXPECT_EQ(m.GetCurr(), m.GetCurr()->next->next->next);
+	m.Reset(); fil.Reset();
+	EXPECT_NE(m.GetCurr()->next->next, fil.GetCurr()->next->next);
 }
 
 TEST_F(ExList, can_assign_filled_list)
@@ -99,37 +102,41 @@ TEST_F(ExList, can_assign_filled_list)
 TEST_F(ExList, assigned_filled_list_is_correct)
 {
 	list<int> m = fil;
-	EXPECT_EQ(1, m.GetHead()->next->data);
-	EXPECT_EQ(10, m.GetHead()->next->next->data);
-	EXPECT_EQ(m.GetHead(), m.GetHead()->next->next->next);
-	EXPECT_NE(m.GetHead(), fil.GetHead());
+	EXPECT_EQ(1, m.GetCurr()->data);
+	EXPECT_EQ(10, m.GetCurr()->next->data);
+	EXPECT_EQ(m.GetCurr(), m.GetCurr()->next->next->next);
+	m.Reset(); fil.Reset();
+	EXPECT_NE(m.GetCurr()->next->next, fil.GetCurr()->next->next);
 }
 
 TEST_F(ExList, insert_in_the_beginning)
 {
 	fil.InsertInOrder(0);
-	EXPECT_EQ(0, fil.GetHead()->next->data);
-	EXPECT_EQ(1, fil.GetHead()->next->next->data);
-	EXPECT_EQ(10, fil.GetHead()->next->next->next->data);
-	EXPECT_EQ(emp.GetHead()->next->next->next->next, emp.GetHead());
+	fil.Reset();
+	EXPECT_EQ(0, fil.GetCurr()->data);
+	EXPECT_EQ(1, fil.GetCurr()->next->data);
+	EXPECT_EQ(10,fil.GetCurr()->next->next->data);
+	EXPECT_EQ(emp.GetCurr()->next->next->next->next, emp.GetCurr());
 }
 
 TEST_F(ExList, insert_in_the_middle)
 {
 	fil.InsertInOrder(5);
-	EXPECT_EQ(1, fil.GetHead()->next->data);
-	EXPECT_EQ(5, fil.GetHead()->next->next->data);
-	EXPECT_EQ(10, fil.GetHead()->next->next->next->data);
-	EXPECT_EQ(emp.GetHead()->next->next->next->next, emp.GetHead());
+	fil.Reset();
+	EXPECT_EQ(1, fil.GetCurr()->data);
+	EXPECT_EQ(5, fil.GetCurr()->next->data);
+	EXPECT_EQ(10, fil.GetCurr()->next->next->data);
+	EXPECT_EQ(emp.GetCurr()->next->next->next->next, emp.GetCurr());
 }
 
 TEST_F(ExList, insert_in_the_end)
 {
 	fil.InsertInOrder(15);
-	EXPECT_EQ(1, fil.GetHead()->next->data);
-	EXPECT_EQ(10, fil.GetHead()->next->next->data);
-	EXPECT_EQ(15, fil.GetHead()->next->next->next->data);
-	EXPECT_EQ(emp.GetHead()->next->next->next->next, emp.GetHead());
+	fil.Reset();
+	EXPECT_EQ(1, fil.GetCurr()->data);
+	EXPECT_EQ(10, fil.GetCurr()->next->data);
+	EXPECT_EQ(15, fil.GetCurr()->next->next->data);
+	EXPECT_EQ(emp.GetCurr()->next->next->next->next, emp.GetCurr());
 }
 
 TEST_F(ExList, filled_lists_are_equal)

@@ -1,23 +1,25 @@
 ﻿#include "polynom.h"
 using namespace std;
-//Конструктор по строке
-polynom::polynom(string ipm)
+
+//Создание списка с мономами по строке
+list<monom> polynom::CreateInstance(string ipm)
 {
+	list<monom> res;
 	int d[3] = { 100,10,1 };
 	while (ipm.length())
 	{
 		string part;
 		monom temp;
-		int pos = 1; 
-		while (pos < ipm.length() && ipm[pos] != '+' && ipm[pos] != '-')
+		int pos = 1;
+		while (pos < (int)ipm.length() && ipm[pos] != '+' && ipm[pos] != '-')
 			pos++;
 		part = ipm.substr(0, pos);
 		ipm.erase(0, pos);
 		pos = 0;
-		while (part[pos] != 'x' && part[pos] != 'y' && part[pos] != 'z' && pos < part.length())
+		while (part[pos] != 'x' && part[pos] != 'y' && part[pos] != 'z' && pos < (int)part.length())
 			pos++;
 
-		string coef = part.substr(0,pos);
+		string coef = part.substr(0, pos);
 		if (coef == "+" || coef.length() == 0)
 			temp.cf = 1;
 		else if (coef == "-")
@@ -41,60 +43,62 @@ polynom::polynom(string ipm)
 				}
 			}
 
-			pmlist.InsertInOrder(temp);
+			res.InsertInOrder(temp);
 		}
 	}
-	
+	return res;
+}
+
+//Конструктор по строке
+polynom::polynom(string ipm)
+{
+	pmlist = CreateInstance(ipm);
 }
 
 //Оператор сложения полиномов
 polynom polynom::operator+(const polynom& pmr) const
 {
 	polynom res;
-	node<monom>* pmlh = pmlist.GetHead();
-	node<monom>* pmrh = pmr.pmlist.GetHead();
-	node<monom>* resh = res.pmlist.GetHead();
-	node<monom>* cl = pmlh->next;
-	node<monom>* cr = pmrh->next;
-	while (cl != pmlh && cr != pmrh)
+	polynom left = *this;
+	polynom right = pmr;
+	while (!left.pmlist.IsEnded() && !right.pmlist.IsEnded()) 
 	{
-		if (cl->data < cr->data)
+		if (left.pmlist.GetCurr()->data < right.pmlist.GetCurr()->data)
 		{
-			resh->next = new node<monom>(cl->data);
-			cl = cl->next;
-			resh = resh->next;
+			res.pmlist.InsertAfter(res.pmlist.GetCurr(), left.pmlist.GetCurr()->data);
+			left.pmlist.Move();
+			res.pmlist.Move();
 		}
-		else if (cl->data > cr->data)
+		else if (left.pmlist.GetCurr()->data > right.pmlist.GetCurr()->data)
 		{
-			resh->next = new node<monom>(cr->data);
-			cr = cr->next;
-			resh = resh->next;
+			res.pmlist.InsertAfter(res.pmlist.GetCurr(), right.pmlist.GetCurr()->data);
+			right.pmlist.Move();
+			res.pmlist.Move();
 		}
 		else
 		{
-			double coef = cl->data.cf + cr->data.cf;
+			double coef = left.pmlist.GetCurr()->data.cf + right.pmlist.GetCurr()->data.cf;
 			if (abs(coef) > EPS)
 			{
-				resh->next = new node<monom>(monom(coef, cl->data.abc));
-				resh = resh->next;
+				res.pmlist.InsertAfter(res.pmlist.GetCurr(),  monom(coef,left.pmlist.GetCurr()->data.abc));
+				res.pmlist.Move();
 			}
-			cl = cl->next;
-			cr = cr->next;
+			left.pmlist.Move();
+			right.pmlist.Move();
 		}
 	}
-	while (cl != pmlh)
+	while (!left.pmlist.IsEnded())
 	{
-		resh->next = new node<monom>(cl->data);
-		cl = cl->next;
-		resh = resh->next;
+		res.pmlist.InsertAfter(res.pmlist.GetCurr(), left.pmlist.GetCurr()->data);
+		left.pmlist.Move();
+		res.pmlist.Move();
 	}
-	while (cr != pmrh)
+	while (!right.pmlist.IsEnded())
 	{
-		resh->next = new node<monom>(cr->data);
-		cr = cr->next;
-		resh = resh->next;
+		res.pmlist.InsertAfter(res.pmlist.GetCurr(), right.pmlist.GetCurr()->data);
+		right.pmlist.Move();
+		res.pmlist.Move();
 	}
-	resh->next = res.pmlist.GetHead();
 	return res;
 }
 
@@ -105,37 +109,36 @@ polynom polynom::operator*(const double mp) const
 	if (abs(mp) > EPS)
 	{
 		res = *this;
-		node<monom>* curr = res.pmlist.GetHead()->next;
-		while (curr != res.pmlist.GetHead())
+		while (!res.pmlist.IsEnded())
 		{
-			curr->data.cf *= mp;
-			curr = curr->next;
+			res.pmlist.GetCurr()->data.cf *= mp;
+			res.pmlist.Move();
 		}
 	}
 	return res;
 }
 
 //Оператор умножения полиномов
-polynom polynom::operator*(const polynom& pml) const
+polynom polynom::operator*(const polynom& pmr) const
 {
 	polynom res;
-	node<monom>* curr = pml.pmlist.GetHead()->next;
-	while (curr != pml.pmlist.GetHead())
+	polynom right = pmr;
+
+	while (!right.pmlist.IsEnded())
 	{
 		polynom temp(*this);
-		node<monom>* pos = temp.pmlist.GetHead()->next;
-		while (pos != temp.pmlist.GetHead())
+		while (!temp.pmlist.IsEnded())
 		{
-			pos->data.cf *= curr->data.cf;
-			int nabc = pos->data.abc + curr->data.abc;
+			temp.pmlist.GetCurr()->data.cf *= right.pmlist.GetCurr()->data.cf;
+			int nabc = temp.pmlist.GetCurr()->data.abc + right.pmlist.GetCurr()->data.abc;
 			if (nabc / 100 < 10 && nabc / 10 % 10 < 10 && nabc % 10 < 10)
-				pos->data.abc = nabc;
+				temp.pmlist.GetCurr()->data.abc = nabc;
 			else
 				throw "Too large exponent";
-			pos = pos->next;
+			temp.pmlist.Move();
 		}
 		res = res + temp;
-		curr = curr->next;
+		right.pmlist.Move();
 	}
 	return res;
 }
@@ -143,12 +146,10 @@ polynom polynom::operator*(const polynom& pml) const
 //Оператор вставки в поток
 ostream& operator<<(ostream &ostr,const polynom& pm)
 {
-	node<monom>* curr = pm.pmlist.GetHead();
-	node<monom>* head = curr;
-	while (curr->next != head)
+	polynom pmt = pm;
+	while (!pmt.pmlist.IsEnded())
 	{
-		curr = curr->next;
-		monom temp = curr->data;
+		monom temp = pmt.pmlist.GetCurr()->data;
 
 		if (abs(temp.cf - 1) > EPS && abs(temp.cf + 1) > EPS || temp.abc == 0)
 			ostr << temp.cf;
@@ -166,7 +167,8 @@ ostream& operator<<(ostream &ostr,const polynom& pm)
 		if(p>1)
 			ostr<< "z^" << p;
 		else if (p == 1) ostr << "z";
-		if(curr->next != head && curr->next->data.cf>0)
+		pmt.pmlist.Move();
+		if(!pmt.pmlist.IsEnded() && pmt.pmlist.GetCurr()->data.cf>0)
 			ostr << "+";
 	}
 	return ostr;

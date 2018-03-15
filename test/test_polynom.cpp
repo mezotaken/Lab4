@@ -12,7 +12,7 @@ struct parse_test
 	{
 		str = istr;
 		list<monom> temp;
-		for (int i = 0; i < ms.size(); i++)
+		for (int i = 0; i < (int)ms.size(); i++)
 			temp.InsertInOrder(ms[i]);
 		res = polynom(temp);
 	}

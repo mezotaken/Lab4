@@ -15,15 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\node.h">
+    <ClInclude Include="..\..\include\table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\list.h">
+    <ClInclude Include="..\..\include\unord_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ord_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\hash_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\list.cpp">
+    <ClCompile Include="..\..\src\table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

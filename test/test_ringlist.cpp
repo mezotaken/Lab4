@@ -1,4 +1,4 @@
-﻿#include "gtest.h"
+﻿#include <gtest.h>
 #include "list.h"
 
 TEST(lists, can_create_empty_list)

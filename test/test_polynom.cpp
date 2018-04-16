@@ -1,4 +1,4 @@
-﻿#include "gtest.h"
+﻿#include <gtest.h>
 #include "polynom.h"
 #include <vector>
 

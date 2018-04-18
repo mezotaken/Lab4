@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "table.h"
 
 
@@ -10,9 +10,10 @@ private:
 	int CurSize;
 public:
 	unord_table(int i_size = MIN_SIZE) : table(i_size) {CurSize = 0;}
-	void Insert(KeyType key, DataType data) override;
-	DataType Find(KeyType key) const override;
-	void Delete(KeyType key) override;
+	~unord_table() {}
+	void Insert(const KeyType& key, const DataType& data) override;
+	DataType Find(const KeyType& key) const override;
+	void Delete(const KeyType& key) override;
 };
 
 template <class KeyType, class DataType>
@@ -28,17 +29,17 @@ void unord_table<KeyType, DataType>::Realloc()
 }
 
 template <class KeyType, class DataType>
-void unord_table<KeyType, DataType>::Insert(KeyType key, DataType data)
+void unord_table<KeyType, DataType>::Insert(const KeyType& key, const DataType& data)
 {
 	if (CurSize == MaxSize)
 		Realloc();
 	mt[CurSize] = row<KeyType,DataType>(key, data);
 	CurSize++;
-	//Èñêëþ÷åíèå ïðè âñòàâêå ñòðîêè ñ êëþ÷îì-äóáëèêàòîì? O(1) -> O(n)
+	//Ð˜ÑÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¸ Ð²ÑÑ‚Ð°Ð²ÐºÐµ ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ñ ÐºÐ»ÑŽÑ‡Ð¾Ð¼-Ð´ÑƒÐ±Ð»Ð¸ÐºÐ°Ñ‚Ð¾Ð¼? O(1) -> O(n)
 }
 
 template <class KeyType, class DataType>
-DataType unord_table<KeyType, DataType>::Find(KeyType key) const
+DataType unord_table<KeyType, DataType>::Find(const KeyType& key) const
 {
 	int i = 0;
 	while (mt[i].key != key && i<CurSize)
@@ -50,7 +51,7 @@ DataType unord_table<KeyType, DataType>::Find(KeyType key) const
 }
 
 template <class KeyType, class DataType>
-void unord_table<KeyType, DataType>::Delete(KeyType key)
+void unord_table<KeyType, DataType>::Delete(const KeyType& key)
 {
 	int i = 0;
 	while (mt[i].key != key && i<CurSize)

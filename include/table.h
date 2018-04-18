@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <cmath>
 #define MIN_SIZE 50
 #define GROWTHCOEF 1.7
@@ -8,7 +8,7 @@ struct row
 {
 	KeyType key;
 	DataType data;
-	row(KeyType i_key, DataType i_data) { key = i_key; data = i_data; }
+	row(const KeyType& i_key, const DataType& i_data) { key = i_key; data = i_data; }
 	row() { key = KeyType(); data = DataType(); }
 };
 
@@ -22,10 +22,10 @@ protected:
 	virtual void Realloc() = 0;
 public:
 	table(int i_size = MIN_SIZE);
-	~table() { delete[] mt; }
-	virtual void Insert(KeyType key, DataType data) = 0;
-	virtual DataType Find(KeyType key) const = 0;
-	virtual void Delete(KeyType key) = 0;
+	virtual ~table() { delete[] mt; }
+	virtual void Insert(const KeyType& key, const DataType& data) = 0;
+	virtual DataType Find(const KeyType& key) const = 0;
+	virtual void Delete(const KeyType& key) = 0;
 };
 
 

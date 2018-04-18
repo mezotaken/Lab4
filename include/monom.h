@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <cmath>
 #define EPS 1e-15	//Для сравнения чисел с плавающей точкой
 
 //Класс Моном

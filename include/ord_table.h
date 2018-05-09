@@ -1,21 +1,86 @@
 ﻿#pragma once
 #include "table.h"
-
+#include "unord_table.h"
 
 template<class KeyType, class DataType>
-class ord_table : table <KeyType, DataType>
+class ord_table : public table <KeyType, DataType>
 {
 private:
-	int CurSize;
 	void Realloc() override;
 	int binsearch(const KeyType& key) const;
 public:
 	~ord_table() {}
-	ord_table(int i_size = MIN_SIZE) : table(i_size) { CurSize = 0; }
+	ord_table(int i_size = MIN_SIZE) : table(i_size) {}
+
+	ord_table(const unord_table<KeyType, DataType>& src);
+
 	void Insert(const KeyType& key, const DataType& data) override;
 	DataType Find(const KeyType& key) const override;
 	void Delete(const KeyType& key) override;
+
+	void Reset() override;
+	bool IsEnded() override;
+	void Move() override;
+	row<KeyType, DataType> GetCurr() const override;
+
+	template<class K, class D>
+	friend std::ostream& operator<<(std::ostream& os, ord_table<K, D> & tab);
 };
+
+template <class KeyType, class DataType>
+std::ostream& operator<<(std::ostream &ostr, ord_table<KeyType, DataType> & tab)
+{
+	if (tab.GetCurSize() != 0)
+	{
+		tab.Reset();
+		ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+		while (!tab.IsEnded())
+		{
+			tab.Move();
+			ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+		}
+	}
+	return ostr;
+}
+
+template <class KeyType, class DataType>
+void ord_table<KeyType, DataType>::Move()
+{
+	Curr++;
+	if (Curr == CurSize )
+		Reset();
+}
+
+template <class KeyType, class DataType>
+ord_table<KeyType, DataType>::ord_table(const unord_table<KeyType, DataType>& src) : table(src.MaxSize)
+{
+	for (int i = 0; i < src.CurSize; i++)
+		Insert(src.mt[i].key, *(src.mt[i].data));
+	Reset();
+}
+
+template <class KeyType, class DataType>
+row<KeyType, DataType> ord_table<KeyType, DataType>::GetCurr() const
+{
+	if (Curr < CurSize)
+		return mt[Curr];
+	else throw "Element doesn't exist";
+}
+
+template <class KeyType, class DataType>
+void ord_table<KeyType, DataType>::Reset()
+{
+	if (CurSize == 0)
+		Curr = -1;
+	else
+		Curr = 0;
+}
+
+template <class KeyType, class DataType>
+bool ord_table<KeyType, DataType>::IsEnded()
+{
+	return(Curr >= CurSize - 1);
+}
 
 template <class KeyType, class DataType>
 void ord_table<KeyType, DataType>::Realloc()
@@ -70,7 +135,7 @@ DataType ord_table<KeyType, DataType>::Find(const KeyType& key) const
 {
 	int res = binsearch(key);
 	if (mt[res].key == key)
-		return mt[res].data;
+		return *(mt[res].data);
 	else
 		throw "Data doesn't exist";
 }	

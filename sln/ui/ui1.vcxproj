@@ -22,6 +22,7 @@
     <ProjectGuid>{35BA6CF6-60DF-43C4-B37E-0D10040EFD24}</ProjectGuid>
     <RootNamespace>ui</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>ui1</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -72,12 +72,14 @@ TEST_F(TestingSetTables, insert_delete_in_unord_empty_table)
 	EXPECT_EQ(0,Uemp.GetCurSize());
 }
 
-TEST_F(TestingSetTables, delete_find_in_unord_empty_table)
+TEST_F(TestingSetTables, delete_find_in_unord_filled_table)
 {
 	Ufil.Delete(5);
 	Ufil.Delete(11);
 	EXPECT_EQ(3, Ufil.Find(7));
 	EXPECT_EQ(1, Ufil.GetCurSize());
+	ASSERT_ANY_THROW(Ufil.Find(5));
+	ASSERT_ANY_THROW(Ufil.Find(11));
 }
 
 TEST_F(TestingSetTables, insert_find_in_ord_empty_table)
@@ -97,12 +99,14 @@ TEST_F(TestingSetTables, insert_delete_in_ord_empty_table)
 	EXPECT_EQ(0, Oemp.GetCurSize());
 }
 
-TEST_F(TestingSetTables, delete_find_in_ord_empty_table)
+TEST_F(TestingSetTables, delete_find_in_ord_filled_table)
 {
 	Ofil.Delete(5);
 	Ofil.Delete(11);
 	EXPECT_EQ(3, Ofil.Find(7));
 	EXPECT_EQ(1, Ofil.GetCurSize());
+	ASSERT_ANY_THROW(Ofil.Find(5));
+	ASSERT_ANY_THROW(Ofil.Find(11));
 }
 
 TEST_F(TestingSetTables, insert_find_in_hash_empty_table)
@@ -122,11 +126,15 @@ TEST_F(TestingSetTables, insert_delete_in_hash_empty_table)
 	EXPECT_EQ(0, Hemp.GetCurSize());
 }
 
-TEST_F(TestingSetTables, delete_find_in_hash_empty_table)
+TEST_F(TestingSetTables, delete_find_in_hash_filled_table)
 {
 	Hfil.Delete(5);
 	Hfil.Delete(11);
 	EXPECT_EQ(3, Hfil.Find(7));
 	EXPECT_EQ(1, Hfil.GetCurSize());
+	ASSERT_ANY_THROW(Hfil.Find(5));
+	ASSERT_ANY_THROW(Hfil.Find(11));
 }
+
+
 //--------------------------------

@@ -134,7 +134,7 @@ template <class KeyType, class DataType>
 DataType ord_table<KeyType, DataType>::Find(const KeyType& key) const
 {
 	int res = binsearch(key);
-	if (mt[res].key == key)
+	if (mt[res].key == key && res<CurSize)
 		return *(mt[res].data);
 	else
 		throw "Data doesn't exist";

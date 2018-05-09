@@ -26,6 +26,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, unord_table<K, D> & tab);
 };
 
+
 template <class KeyType, class DataType>
 std::ostream& operator<<(std::ostream &ostr, unord_table<KeyType, DataType> & tab)
 {
@@ -90,9 +91,16 @@ void unord_table<KeyType, DataType>::Insert(const KeyType& key, const DataType& 
 {
 	if (CurSize == MaxSize)
 		Realloc();
-	mt[CurSize] = row<KeyType,DataType>(key, data);
-	CurSize++;
-	//Исключение при вставке строки с ключом-дубликатом? O(1) -> O(n)
+	int i = 0;
+	while (mt[i].key != key && i<CurSize)
+		i++;
+	if (i == CurSize)
+	{
+		mt[CurSize] = row<KeyType, DataType>(key, data);
+		CurSize++;
+	}
+	else
+		throw "Duplicated key";
 }
 
 template <class KeyType, class DataType>

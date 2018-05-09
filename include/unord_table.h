@@ -46,7 +46,7 @@ std::ostream& operator<<(std::ostream &ostr, unord_table<KeyType, DataType> & ta
 template <class KeyType, class DataType>
 row<KeyType, DataType> unord_table<KeyType, DataType>::GetCurr() const
 {
-	if (Curr < CurSize)
+	if (Curr < CurSize && Curr > -1)
 		return mt[Curr];
 	else throw "Element doesn't exist";
 }

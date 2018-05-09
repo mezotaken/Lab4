@@ -62,7 +62,7 @@ ord_table<KeyType, DataType>::ord_table(const unord_table<KeyType, DataType>& sr
 template <class KeyType, class DataType>
 row<KeyType, DataType> ord_table<KeyType, DataType>::GetCurr() const
 {
-	if (Curr < CurSize)
+	if (Curr < CurSize && Curr>-1)
 		return mt[Curr];
 	else throw "Element doesn't exist";
 }

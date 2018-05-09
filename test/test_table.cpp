@@ -8,7 +8,7 @@ using namespace std;
 
 
 
-//Тесты на возможность создания
+//Тесты на возможность создания (Баг?)
 //TEST(lists, can_create_empty_unord_table)
 //{
 //	ASSERT_NO_THROW(unord_table<int,int> t);
@@ -136,5 +136,116 @@ TEST_F(TestingSetTables, delete_find_in_hash_filled_table)
 	ASSERT_ANY_THROW(Hfil.Find(11));
 }
 
+TEST_F(TestingSetTables, delete_throws_in_unord_empty_table)
+{
+	ASSERT_ANY_THROW(Uemp.Delete(5));
+	ASSERT_ANY_THROW(Uemp.Delete(11));
+}
 
-//--------------------------------
+TEST_F(TestingSetTables, delete_throws_in_ord_empty_table)
+{
+	ASSERT_ANY_THROW(Oemp.Delete(5));
+	ASSERT_ANY_THROW(Oemp.Delete(11));
+}
+
+TEST_F(TestingSetTables, delete_throws_in_hash_empty_table)
+{
+	ASSERT_ANY_THROW(Hemp.Delete(5));
+	ASSERT_ANY_THROW(Hemp.Delete(11));
+}
+
+
+//-------------Тестирование методов навигации------------
+
+
+//На пустых
+TEST_F(TestingSetTables, correct_navigation_on_empty_unord_table)
+{
+	ASSERT_NO_THROW(Uemp.Reset());
+	ASSERT_NO_THROW(Uemp.Move());
+	EXPECT_EQ(true, Uemp.IsEnded());
+	ASSERT_ANY_THROW(Uemp.GetCurr());
+}
+
+TEST_F(TestingSetTables, correct_navigation_on_empty_ord_table)
+{
+	ASSERT_NO_THROW(Oemp.Reset());
+	ASSERT_NO_THROW(Oemp.Move());
+	EXPECT_EQ(true, Oemp.IsEnded());
+	ASSERT_ANY_THROW(Oemp.GetCurr());
+}
+TEST_F(TestingSetTables, correct_navigation_on_empty_hash_table)
+{
+	ASSERT_NO_THROW(Hemp.Reset());
+	ASSERT_NO_THROW(Hemp.Move());
+	EXPECT_EQ(true, Hemp.IsEnded());
+	ASSERT_ANY_THROW(Hemp.GetCurr());
+}
+
+//На непустых
+
+TEST_F(TestingSetTables, correct_navigation_on_filled_unord_table)
+{
+	ASSERT_NO_THROW(Ufil.Reset());
+	EXPECT_EQ(11, Ufil.GetCurr().key);
+	EXPECT_EQ(22, *Ufil.GetCurr().data);
+
+	ASSERT_NO_THROW(Ufil.Move());
+	EXPECT_EQ(5, Ufil.GetCurr().key);
+	EXPECT_EQ(10, *Ufil.GetCurr().data);
+
+	ASSERT_NO_THROW(Ufil.Move());
+	EXPECT_EQ(7, Ufil.GetCurr().key);
+	EXPECT_EQ(3, *Ufil.GetCurr().data);
+
+	ASSERT_NO_THROW(Ufil.IsEnded());
+	EXPECT_EQ(true, Ufil.IsEnded());
+
+	ASSERT_NO_THROW(Ufil.Move());
+	EXPECT_EQ(11, Ufil.GetCurr().key);
+	EXPECT_EQ(22, *Ufil.GetCurr().data);
+
+}
+
+TEST_F(TestingSetTables, correct_navigation_on_filled_ord_table)
+{
+	ASSERT_NO_THROW(Ofil.Reset());
+	EXPECT_EQ(5, Ofil.GetCurr().key);
+	EXPECT_EQ(10, *Ofil.GetCurr().data);
+
+	ASSERT_NO_THROW(Ofil.Move());
+	EXPECT_EQ(7, Ofil.GetCurr().key);
+	EXPECT_EQ(3, *Ofil.GetCurr().data);
+
+	ASSERT_NO_THROW(Ofil.Move());
+	EXPECT_EQ(11, Ofil.GetCurr().key);
+	EXPECT_EQ(22, *Ofil.GetCurr().data);
+
+	ASSERT_NO_THROW(Ofil.IsEnded());
+	EXPECT_EQ(true, Ofil.IsEnded());
+
+	ASSERT_NO_THROW(Ofil.Move());
+	EXPECT_EQ(5, Ofil.GetCurr().key);
+	EXPECT_EQ(10, *Ofil.GetCurr().data);
+}
+TEST_F(TestingSetTables, correct_navigation_on_filled_hash_table)
+{
+	ASSERT_NO_THROW(Hfil.Reset());
+	EXPECT_EQ(11, Hfil.GetCurr().key);
+	EXPECT_EQ(22, *Hfil.GetCurr().data);
+
+	ASSERT_NO_THROW(Hfil.Move());
+	EXPECT_EQ(5, Hfil.GetCurr().key);
+	EXPECT_EQ(10, *Hfil.GetCurr().data);
+
+	ASSERT_NO_THROW(Hfil.Move());
+	EXPECT_EQ(7, Hfil.GetCurr().key);
+	EXPECT_EQ(3, *Hfil.GetCurr().data);
+
+	ASSERT_NO_THROW(Hfil.IsEnded());
+	EXPECT_EQ(true, Hfil.IsEnded());
+
+	ASSERT_NO_THROW(Hfil.Move());
+	EXPECT_EQ(11, Hfil.GetCurr().key);
+	EXPECT_EQ(22, *Hfil.GetCurr().data);
+}

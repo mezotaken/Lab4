@@ -53,7 +53,7 @@ void main() {
 	unord_table<string, polynom> ut;
 	ord_table<string, polynom> ot;
 	hash_table<string, polynom> ht;
-
+	polynom t;
 	char pmenu;
 	do {
 		pmenu = main_menu();
@@ -68,14 +68,12 @@ void main() {
 			string inp;
 			try
 			{
-				cout << "Input name:\n";
-				cin >> pname;
-				system("cls");
 				cout << "Input polynom:\n";
 				cin >> inp;
-				ut.Insert(pname, polynom(inp));
-				ot.Insert(pname, polynom(inp));
-				ht.Insert(pname, polynom(inp));
+				t = polynom(inp);
+				ut.Insert(t.str() ,t);
+				ot.Insert(t.str(), t);
+				ht.Insert(t.str(), t);
 			}
 			catch (...)
 			{
@@ -93,7 +91,7 @@ void main() {
 			string pname;
 			try 
 			{
-				cout << "Input name:\n";
+				cout << "Input polynom:\n";
 				cin >> pname;
 				ut.Delete(pname);
 				ot.Delete(pname);
@@ -129,13 +127,13 @@ void main() {
 						cin >> pn2;
 
 						cout << "Unordered table data result:\n";
-						cout << '(' << ut.Find(pn1) << ')' << '+' << '(' << ut.Find(pn2) << ')' << '=' << ut.Find(pn1) + ut.Find(pn2) << '\n';
+						cout << '(' << *ut.Find(pn1) << ')' << '+' << '(' << *ut.Find(pn2) << ')' << '=' << *ut.Find(pn1) + *ut.Find(pn2) << '\n';
 
 						cout << "Ordered table data result:\n";
-						cout << '(' << ot.Find(pn1) << ')' << '+' << '(' << ot.Find(pn2) << ')' << '=' << ot.Find(pn1) + ot.Find(pn2) << '\n';
+						cout << '(' << *ot.Find(pn1) << ')' << '+' << '(' << *ot.Find(pn2) << ')' << '=' << *ot.Find(pn1) + *ot.Find(pn2) << '\n';
 
 						cout << "Hash table data result:\n";
-						cout << '(' << ht.Find(pn1) << ')' << '+' << '(' << ht.Find(pn2) << ')' << '=' << ht.Find(pn1) + ht.Find(pn2) << '\n';
+						cout << '(' << *ht.Find(pn1) << ')' << '+' << '(' << *ht.Find(pn2) << ')' << '=' << *ht.Find(pn1) + *ht.Find(pn2) << '\n';
 						system("pause");
 					}
 					catch (...)
@@ -153,15 +151,12 @@ void main() {
 						case '1':
 						{
 							polynom res;
-							string pname;
 							try
 							{
-								cout << "Input name:\n";
-								cin >> pname;
-								res = ot.Find(pn1) + ot.Find(pn2);
-								ut.Insert(pname, res);
-								ot.Insert(pname, res);
-								ht.Insert(pname, res);
+								res = *ot.Find(pn1) + *ot.Find(pn2);
+								ut.Insert(res.str(), res);
+								ot.Insert(res.str(), res);
+								ht.Insert(res.str(), res);
 							}
 							catch (...)
 							{
@@ -188,13 +183,13 @@ void main() {
 						cin >> pn2;
 
 						cout << "Unordered table data result:\n";
-						cout << '(' << ut.Find(pn1) << ')' << '-' << '(' << ut.Find(pn2) << ')' << '=' << ut.Find(pn1) - ut.Find(pn2) << '\n';
+						cout << '(' << *ut.Find(pn1) << ')' << '-' << '(' << *ut.Find(pn2) << ')' << '=' << *ut.Find(pn1) - *ut.Find(pn2) << '\n';
 
 						cout << "Ordered table data result:\n";
-						cout << '(' << ot.Find(pn1) << ')' << '-' << '(' << ot.Find(pn2) << ')' << '=' << ot.Find(pn1) - ot.Find(pn2) << '\n';
+						cout << '(' << *ot.Find(pn1) << ')' << '-' << '(' << *ot.Find(pn2) << ')' << '=' << *ot.Find(pn1) - *ot.Find(pn2) << '\n';
 
 						cout << "Hash table data result:\n";
-						cout << '(' << ht.Find(pn1) << ')' << '-' << '(' << ht.Find(pn2) << ')' << '=' << ht.Find(pn1) - ht.Find(pn2) << '\n';
+						cout << '(' << *ht.Find(pn1) << ')' << '-' << '(' << *ht.Find(pn2) << ')' << '=' << *ht.Find(pn1) - *ht.Find(pn2) << '\n';
 						system("pause");
 					}
 					catch (...)
@@ -212,15 +207,12 @@ void main() {
 						case '1':
 						{
 							polynom res;
-							string pname;
 							try
 							{
-								cout << "Input name:\n";
-								cin >> pname;
-								res = ot.Find(pn1) - ot.Find(pn2);
-								ut.Insert(pname, res);
-								ot.Insert(pname, res);
-								ht.Insert(pname, res);
+								res = *ot.Find(pn1) - *ot.Find(pn2);
+								ut.Insert(res.str(), res);
+								ot.Insert(res.str(), res);
+								ht.Insert(res.str(), res);
 							}
 							catch (...)
 							{
@@ -247,13 +239,13 @@ void main() {
 						cin >> pn2;
 
 						cout << "Unordered table data result:\n";
-						cout << '(' << ut.Find(pn1) << ')' << '*' << '(' << ut.Find(pn2) << ')' << '=' << ut.Find(pn1) * ut.Find(pn2) << '\n';
+						cout << '(' << *ut.Find(pn1) << ')' << '*' << '(' << *ut.Find(pn2) << ')' << '=' << *ut.Find(pn1) * *ut.Find(pn2) << '\n';
 
 						cout << "Ordered table data result:\n";
-						cout << '(' << ot.Find(pn1) << ')' << '*' << '(' << ot.Find(pn2) << ')' << '=' << ot.Find(pn1) * ot.Find(pn2) << '\n';
+						cout << '(' << *ot.Find(pn1) << ')' << '*' << '(' << *ot.Find(pn2) << ')' << '=' << *ot.Find(pn1) * *ot.Find(pn2) << '\n';
 
 						cout << "Hash table data result:\n";
-						cout << '(' << ht.Find(pn1) << ')' << '*' << '(' << ht.Find(pn2) << ')' << '=' << ht.Find(pn1) * ht.Find(pn2) << '\n';
+						cout << '(' << *ht.Find(pn1) << ')' << '*' << '(' << *ht.Find(pn2) << ')' << '=' << *ht.Find(pn1) * *ht.Find(pn2) << '\n';
 						system("pause");
 					}
 					catch (...)
@@ -271,15 +263,12 @@ void main() {
 						case '1':
 						{
 							polynom res;
-							string pname;
 							try
 							{
-								cout << "Input name:\n";
-								cin >> pname;
-								res = ot.Find(pn1) * ot.Find(pn2);
-								ut.Insert(pname, res);
-								ot.Insert(pname, res);
-								ht.Insert(pname, res);
+								res = *ot.Find(pn1) * *ot.Find(pn2);
+								ut.Insert(res.str(), res);
+								ot.Insert(res.str(), res);
+								ht.Insert(res.str(), res);
 							}
 							catch (...)
 							{
@@ -307,13 +296,13 @@ void main() {
 						cin >> c;
 
 						cout << "Unordered table data result:\n";
-						cout << '(' << ut.Find(pn1) << ')' << '*' << '(' << c << ')' << '=' << ut.Find(pn1) * c << '\n';
+						cout << '(' << *ut.Find(pn1) << ')' << '*' << '(' << c << ')' << '=' << *ut.Find(pn1) * c << '\n';
 
 						cout << "Ordered table data result:\n";
-						cout << '(' << ot.Find(pn1) << ')' << '*' << '(' << c << ')' << '=' << ot.Find(pn1) * c << '\n';
+						cout << '(' << *ot.Find(pn1) << ')' << '*' << '(' << c << ')' << '=' << *ot.Find(pn1) * c << '\n';
 
 						cout << "Hash table data result:\n";
-						cout << '(' << ht.Find(pn1) << ')' << '*' << '(' << c << ')' << '=' << ht.Find(pn1) * c << '\n';
+						cout << '(' << *ht.Find(pn1) << ')' << '*' << '(' << c << ')' << '=' << *ht.Find(pn1) * c << '\n';
 						system("pause");
 					}
 					catch (...)
@@ -331,15 +320,12 @@ void main() {
 						case '1':
 						{
 							polynom res;
-							string pname;
 							try
 							{
-								cout << "Input name:\n";
-								cin >> pname;
-								res = ot.Find(pn1) *c;
-								ut.Insert(pname, res);
-								ot.Insert(pname, res);
-								ht.Insert(pname, res);
+								res = *ot.Find(pn1) *c;
+								ut.Insert(res.str(), res);
+								ot.Insert(res.str(), res);
+								ht.Insert(res.str(), res);
 							}
 							catch (...)
 							{

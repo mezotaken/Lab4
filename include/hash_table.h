@@ -43,10 +43,10 @@ public:
 	~hash_table() { delete[] exist; }
 
 	void Insert(const KeyType& key, const DataType& data) override;
-	DataType Find(const KeyType& key) const override;
+	DataType* Find(const KeyType& key) const override;
 	void Delete(const KeyType& key) override;
 
-	bool IsEnded() override;
+	bool IsEnded() const override;
 	void Reset() override;
 	void Move() override;
 	row<KeyType, DataType> GetCurr() const override;
@@ -92,7 +92,7 @@ row<KeyType, DataType> hash_table<KeyType, DataType,HashGen>::GetCurr() const
 
 
 template <class KeyType, class DataType, class HashGen>
-bool hash_table<KeyType, DataType, HashGen>::IsEnded()
+bool hash_table<KeyType, DataType, HashGen>::IsEnded() const
 {	
 	int t = Curr + 1;
 	while (t < MaxSize && exist[t] != 1)
@@ -147,11 +147,11 @@ void hash_table<KeyType, DataType, HashGen>::Insert(const KeyType& key, const Da
 }
 
 template <class KeyType, class DataType, class HashGen>
-DataType hash_table<KeyType, DataType, HashGen>::Find(const KeyType& key) const
+DataType* hash_table<KeyType, DataType, HashGen>::Find(const KeyType& key) const
 {
 	int ind = rhash(key,true);
 	if (exist[ind] == 1)
-		return *(mt[ind].data);
+		return mt[ind].data;
 	else
 		throw "Data doesn't exist";
 	

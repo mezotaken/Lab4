@@ -15,13 +15,8 @@ public:
 	ord_table(const unord_table<KeyType, DataType>& src);
 
 	void Insert(const KeyType& key, const DataType& data) override;
-	DataType Find(const KeyType& key) const override;
+	DataType* Find(const KeyType& key) const override;
 	void Delete(const KeyType& key) override;
-
-	void Reset() override;
-	bool IsEnded() override;
-	void Move() override;
-	row<KeyType, DataType> GetCurr() const override;
 
 	template<class K, class D>
 	friend std::ostream& operator<<(std::ostream& os, ord_table<K, D> & tab);
@@ -43,13 +38,6 @@ std::ostream& operator<<(std::ostream &ostr, ord_table<KeyType, DataType> & tab)
 	return ostr;
 }
 
-template <class KeyType, class DataType>
-void ord_table<KeyType, DataType>::Move()
-{
-	Curr++;
-	if (Curr == CurSize )
-		Reset();
-}
 
 template <class KeyType, class DataType>
 ord_table<KeyType, DataType>::ord_table(const unord_table<KeyType, DataType>& src) : table(src.MaxSize)
@@ -59,28 +47,6 @@ ord_table<KeyType, DataType>::ord_table(const unord_table<KeyType, DataType>& sr
 	Reset();
 }
 
-template <class KeyType, class DataType>
-row<KeyType, DataType> ord_table<KeyType, DataType>::GetCurr() const
-{
-	if (Curr < CurSize && Curr>-1)
-		return mt[Curr];
-	else throw "Element doesn't exist";
-}
-
-template <class KeyType, class DataType>
-void ord_table<KeyType, DataType>::Reset()
-{
-	if (CurSize == 0)
-		Curr = -1;
-	else
-		Curr = 0;
-}
-
-template <class KeyType, class DataType>
-bool ord_table<KeyType, DataType>::IsEnded()
-{
-	return(Curr >= CurSize - 1);
-}
 
 template <class KeyType, class DataType>
 void ord_table<KeyType, DataType>::Realloc()
@@ -131,11 +97,11 @@ void ord_table<KeyType, DataType>::Insert(const KeyType& key, const DataType& da
 }
 
 template <class KeyType, class DataType>
-DataType ord_table<KeyType, DataType>::Find(const KeyType& key) const
+DataType* ord_table<KeyType, DataType>::Find(const KeyType& key) const
 {
 	int res = binsearch(key);
 	if (mt[res].key == key && res<CurSize)
-		return *(mt[res].data);
+		return mt[res].data;
 	else
 		throw "Data doesn't exist";
 }	

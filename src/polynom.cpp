@@ -49,6 +49,13 @@ list<monom> polynom::CreateInstance(string ipm)
 	return res;
 }
 
+string polynom::str() const
+{
+	stringstream buffer;
+	buffer << *this;
+	return buffer.str();
+}
+
 //Конструктор по строке
 polynom::polynom(string ipm)
 {

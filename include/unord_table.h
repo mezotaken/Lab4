@@ -12,13 +12,8 @@ public:
 	~unord_table() {}
 
 	void Insert(const KeyType& key, const DataType& data) override;
-	DataType Find(const KeyType& key) const override;
+	DataType* Find(const KeyType& key) const override;
 	void Delete(const KeyType& key) override;
-
-	void Reset() override;
-	void Move() override;
-	bool IsEnded() override;
-	row<KeyType, DataType> GetCurr() const override;
 
 	template<class KeyType,class DataType> friend class ord_table;
 
@@ -43,36 +38,7 @@ std::ostream& operator<<(std::ostream &ostr, unord_table<KeyType, DataType> & ta
 	return ostr;
 }
 
-template <class KeyType, class DataType>
-row<KeyType, DataType> unord_table<KeyType, DataType>::GetCurr() const
-{
-	if (Curr < CurSize && Curr > -1)
-		return mt[Curr];
-	else throw "Element doesn't exist";
-}
 
-template <class KeyType, class DataType>
-void unord_table<KeyType, DataType>::Move()
-{
-	Curr++;
-	if (Curr == CurSize)
-		Reset();
-}
-
-template <class KeyType, class DataType>
-void unord_table<KeyType, DataType>::Reset()
-{
-	if (CurSize == 0)
-		Curr = -1;
-	else
-		Curr = 0;
-}
-
-template <class KeyType, class DataType>
-bool unord_table<KeyType, DataType>::IsEnded()
-{
-	return(Curr >= CurSize - 1);
-}
 
 template <class KeyType, class DataType>
 void unord_table<KeyType, DataType>::Realloc()
@@ -104,13 +70,13 @@ void unord_table<KeyType, DataType>::Insert(const KeyType& key, const DataType& 
 }
 
 template <class KeyType, class DataType>
-DataType unord_table<KeyType, DataType>::Find(const KeyType& key) const
+DataType* unord_table<KeyType, DataType>::Find(const KeyType& key) const
 {
 	int i = 0;
 	while (mt[i].key != key && i<CurSize)
 		i++;
 	if (i < CurSize)
-		return *(mt[i].data);
+		return mt[i].data;
 	else
 		throw "Data doesn't exist";
 }

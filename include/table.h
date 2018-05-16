@@ -31,13 +31,15 @@ public:
 	virtual ~table() { delete[] mt; }
 
 	virtual void Insert(const KeyType& key, const DataType& data) = 0;
-	virtual DataType Find(const KeyType& key) const = 0;
+	virtual DataType* Find(const KeyType& key) const = 0;
 	virtual void Delete(const KeyType& key) = 0;
 
-	virtual void Reset() = 0;
-	virtual bool IsEnded() = 0; 
-	virtual void Move() = 0;
-	virtual row<KeyType, DataType> GetCurr() const = 0;
+	virtual void Reset();
+	virtual bool IsEnded() const; 
+	virtual void Move();
+	virtual row<KeyType, DataType> GetCurr() const;
+
+	virtual bool IsFull() const {return CurSize >= MaxSize; }
 	int GetCurSize() const { return CurSize; }
 	int GetMaxSize() const { return MaxSize; }
 	bool IsEmpty() const { return CurSize == 0; }
@@ -51,4 +53,35 @@ table<KeyType, DataType>::table(int i_size)
 	CurSize = 0;
 	MaxSize = i_size;
 	mt = new row<KeyType, DataType>[MaxSize];
+}
+
+template <class KeyType, class DataType>
+void table<KeyType, DataType>::Reset() 
+{
+	if (CurSize == 0)
+		Curr = -1;
+	else
+		Curr = 0;
+}
+
+template <class KeyType, class DataType>
+bool table<KeyType, DataType>::IsEnded() const
+{
+	return(Curr >= CurSize - 1);
+}
+
+template <class KeyType, class DataType>
+void table<KeyType, DataType>::Move()
+{
+	Curr++;
+	if (Curr == CurSize)
+		Reset();
+}
+
+template <class KeyType, class DataType>
+row<KeyType, DataType> table<KeyType, DataType>::GetCurr() const
+{
+		if (Curr < CurSize && Curr > -1)
+			return mt[Curr];
+		else throw "Element doesn't exist";
 }

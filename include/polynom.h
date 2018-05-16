@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <algorithm>
 #include "monom.h"
@@ -18,6 +19,8 @@ public:
 	polynom(const polynom& src) : pmlist(src.pmlist) {}								//Конструктор копирования
 	const polynom& operator=(const polynom &src) { pmlist = src.pmlist; return *this; }	//Перегрузка оператора присваивания
 	friend std::ostream& operator<<(std::ostream &ostr, const polynom &pm);			//Оператор вставки в поток
+	std::string str() const;
+
 	friend polynom operator*(const double mp, const polynom& pol) { return pol*mp; }//Умножение на константу с другой стороны
 	polynom operator-(const polynom& pml) const { return *this + pml*(-1); }		//Бинарный минус
 	polynom operator-() const { return (-1)*(*this); }								//Унарный минус

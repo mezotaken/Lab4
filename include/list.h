@@ -59,8 +59,11 @@ list<dtype>::~list()
 
 //----------------------Конструктор копирования---------------------------//
 template <class dtype>
-list<dtype>::list(const list<dtype>& src) : list()
+list<dtype>::list(const list<dtype>& src)
 {
+	head = new node<dtype>;
+	head->next = head; 
+	curr = head->next;
 	node<dtype>* psrc = src.head;
 	node<dtype>* pcur = head;
 	while (psrc->next != src.head)

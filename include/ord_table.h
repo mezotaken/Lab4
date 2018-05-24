@@ -28,11 +28,11 @@ std::ostream& operator<<(std::ostream &ostr, ord_table<KeyType, DataType> & tab)
 	if (tab.GetCurSize() != 0)
 	{
 		tab.Reset();
-		ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+		ostr << tab.GetCurr().key << "     " << tab.GetCurr().data << endl;
 		while (!tab.IsEnded())
 		{
 			tab.Move();
-			ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+			ostr << tab.GetCurr().key << "     " << tab.GetCurr().data << endl;
 		}
 	}
 	return ostr;
@@ -101,7 +101,7 @@ DataType* ord_table<KeyType, DataType>::Find(const KeyType& key) const
 {
 	int res = binsearch(key);
 	if (mt[res].key == key && res<CurSize)
-		return mt[res].data;
+		return &mt[res].data;
 	else
 		throw "Data doesn't exist";
 }	
@@ -112,6 +112,7 @@ void ord_table<KeyType, DataType>::Delete(const KeyType& key)
 	int del = binsearch(key);
 	if (mt[del].key == key)
 	{
+		mt[del] = row<KeyType, DataType>();
 		for (int i = del; i < CurSize - 1; i++)
 			mt[i] = mt[i + 1];
 		CurSize--;

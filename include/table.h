@@ -8,12 +8,27 @@ template <class KeyType, class DataType>
 struct row
 {
 	KeyType key;
-	DataType* data;
-	row(const KeyType& i_key, const DataType& i_data) { key = i_key; data = new DataType(i_data); }
-	row() { key = KeyType(); data = nullptr; }
-	row(const row& src) { key = src.key; data = new DataType(*(src.data)); }
-	row& operator=(const row& src) { key = src.key; delete data; data = new DataType(*(src.data));  return *this; }
-	~row() { delete data; }
+	DataType data;
+	row(const KeyType& i_key, const DataType& i_data) 
+	{
+	key = i_key; 
+	data = i_data;
+	}
+	row() { key = KeyType(); data = DataType(); }
+	row(const row& src) 
+	{ 
+		key = src.key; 
+		data = src.data; 
+	}
+	row& operator=(const row& src) 
+	{ 
+
+			key = src.key; 
+			data = src.data; 
+			return *this; 
+	}
+
+	~row() { }
 };
 
 

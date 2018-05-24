@@ -61,11 +61,11 @@ std::ostream& operator<<(std::ostream &ostr, hash_table<KeyType, DataType,HashGe
 	if (tab.GetCurSize() != 0)
 	{
 		tab.Reset();
-		ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+		ostr << tab.GetCurr().key << "     " << tab.GetCurr().data << endl;
 		while (!tab.IsEnded())
 		{
 			tab.Move();
-			ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+			ostr << tab.GetCurr().key << "     " << tab.GetCurr().data << endl;
 		}
 	}
 	return ostr;
@@ -151,7 +151,7 @@ DataType* hash_table<KeyType, DataType, HashGen>::Find(const KeyType& key) const
 {
 	int ind = rhash(key,true);
 	if (exist[ind] == 1)
-		return mt[ind].data;
+		return &mt[ind].data;
 	else
 		throw "Data doesn't exist";
 	
@@ -162,6 +162,7 @@ void hash_table<KeyType, DataType, HashGen>::Delete(const KeyType& key)
 	int ind = rhash(key, true);
 	if (mt[ind].key == key)
 	{
+		mt[ind] = row<KeyType, DataType>();
 		CurSize--;
 		exist[ind] = -1;
 	}
@@ -181,7 +182,7 @@ void hash_table<KeyType, DataType, HashGen>::Realloc()
 	mt = new row<KeyType, DataType>[MaxSize];
 	for (int i = 0; i < oldSize; i++)
 		if (oldEx[i] == 1)
-			Insert(oldmt[i].key, *(oldmt[i].data));
+			Insert(oldmt[i].key, oldmt[i].data);
 	delete[] oldmt;
 	delete[] oldEx;
 }

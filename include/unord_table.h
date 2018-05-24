@@ -28,11 +28,11 @@ std::ostream& operator<<(std::ostream &ostr, unord_table<KeyType, DataType> & ta
 	if (tab.GetCurSize() != 0)
 	{
 		tab.Reset();
-		ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+		ostr << tab.GetCurr().key << "     " << tab.GetCurr().data << endl;
 		while (!tab.IsEnded())
 		{
 			tab.Move();
-			ostr << tab.GetCurr().key << "     " << *tab.GetCurr().data << endl;
+			ostr << tab.GetCurr().key << "     " << tab.GetCurr().data << endl;
 		}
 	}
 	return ostr;
@@ -60,7 +60,7 @@ void unord_table<KeyType, DataType>::Insert(const KeyType& key, const DataType& 
 	int i = 0;
 	while (mt[i].key != key && i<CurSize)
 		i++;
-	if (i == CurSize)
+	if (key != mt[i].key && i==CurSize)
 	{
 		mt[CurSize] = row<KeyType, DataType>(key, data);
 		CurSize++;
@@ -76,7 +76,7 @@ DataType* unord_table<KeyType, DataType>::Find(const KeyType& key) const
 	while (mt[i].key != key && i<CurSize)
 		i++;
 	if (i < CurSize)
-		return mt[i].data;
+		return &mt[i].data;
 	else
 		throw "Data doesn't exist";
 }
@@ -88,10 +88,11 @@ void unord_table<KeyType, DataType>::Delete(const KeyType& key)
 	while (mt[i].key != key && i<CurSize)
 		i++;
 	if (i < CurSize)
-		if (CurSize > 1)
-			mt[i] = mt[--CurSize];
-		else
-			CurSize = 0;
+	{
+		mt[CurSize - 1] = row<KeyType,DataType>();
+		mt[i] = mt[CurSize-1];
+		CurSize--;
+	}
 	else
 		throw "Data doesn't exist";
 }
